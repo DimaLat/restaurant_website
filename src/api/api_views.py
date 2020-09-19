@@ -6,7 +6,7 @@ from ..restaurant.models import Category, Product
 
 
 class CategoryPagination(PageNumberPagination):
-    page_size = 5
+    page_size = 3
     page_query_param = 'page_size'
     max_page_size = 10
 
