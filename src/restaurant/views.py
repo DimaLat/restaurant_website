@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 
 from .models import Category, Product
 
@@ -8,7 +8,7 @@ def product_list(request, category_slug=None):
     categories = Category.objects.all()
     products = Product.objects.filter(available=True)
     if category_slug:
-        category = get_object_or_404(Category, slug=category_slug)
+        category = get_list_or_404(Category, slug=category_slug)  # list
         products = products.filter(category=category)
     return render(request,
                   'restaurant/product/list.html',
@@ -23,4 +23,5 @@ def product_detail(request, product_id, slug):
                                 slug=slug,
                                 available=True)
     return render(request,
-                  'restaurant/product/detail.html')
+                  'restaurant/product/detail.html',
+                  {'product': product})

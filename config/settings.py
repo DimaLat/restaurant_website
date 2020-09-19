@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'src.restaurant',
     'bootstrap3',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +75,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
+PAYPAL_RECEIVER_EMAIL = 'dikeooel3ski-facilitator@gmail.com'
+PAYPAL_TEST = True
+
 
 DATABASES = {
     'default': {
