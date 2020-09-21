@@ -20,13 +20,14 @@ class BaseProductSerializer(serializers.ModelSerializer):
     slug = serializers.SlugField(required=True)
     image_width = serializers.IntegerField(required=True)
     image_height = serializers.IntegerField(required=True)
-    image = serializers.ImageField(required=True)
+    image = serializers.ImageField(required=False)
     description = serializers.CharField(required=False)
     price = serializers.DecimalField(max_digits=10, decimal_places=0,required=True)
     stock = serializers.IntegerField()
     available = serializers.BooleanField(required=True)
     created = serializers.DateTimeField()
     updated = serializers.DateTimeField()
+
 
     class Meta:
         model = Product

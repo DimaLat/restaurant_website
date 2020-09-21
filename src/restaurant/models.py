@@ -21,7 +21,8 @@ class Product(models.Model):
     slug = models.SlugField(max_length=200, db_index=True)
     image_width = models.IntegerField(default=0)
     image_height = models.IntegerField(default=0)
-    image = models.ImageField(upload_to='media/products/%Y/%m/%d', blank=True, width_field='image_width', height_field='image_height')
+    image = models.ImageField(upload_to='media/products/%Y/%m/%d', blank=True, width_field='image_width',
+                              height_field='image_height')
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=0)
     stock = models.PositiveIntegerField()

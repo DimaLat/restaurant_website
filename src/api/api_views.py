@@ -1,3 +1,6 @@
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView, RetrieveUpdateAPIView
 from rest_framework.pagination import PageNumberPagination
@@ -18,7 +21,7 @@ class ProductPagination(PageNumberPagination):
 
 
 class CategoryAPIView(ListCreateAPIView,
-                          RetrieveUpdateAPIView):  # ListAPIView - для просмотра ListCreateAPIView еще и для
+                      RetrieveUpdateAPIView):  # ListAPIView - для просмотра ListCreateAPIView еще и для
     # создания и изменения
     serializer_class = CategorySerializer  # указываем какой используем сериалайзер
     pagination_class = CategoryPagination  # указываем класс пагинации
@@ -26,15 +29,45 @@ class CategoryAPIView(ListCreateAPIView,
     lookup_field = "id"
 
 
-class ProductListCreateAPIView(ListCreateAPIView, RetrieveUpdateAPIView):
-    serializer_class = BaseProductSerializer
-    queryset = Product.objects.all()
-    pagination_class = ProductPagination
-    filter_backends = [SearchFilter]
-    search_fields = ['price']  # за поиском прописываем в адресную строку http://127.0.0.1:8000/api/products/?search=10
+@api_view(['GET', 'POST'])
+def product_list(request):
+    """
+    List all code Products, or create a new Product.
+    """
+    if request.method == 'GET':
+        products = Product.objects.all()
+        serializer = BaseProductSerializer(products, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = BaseProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProductDetailAPIView(RetrieveAPIView):
-    serializer_class = BaseProductSerializer
-    queryset = Product.objects.all()
-    lookup_field = "id"
+@api_view(['GET', 'PUT', 'DELETE'])
+def product_detail(request, pk, format=None):
+    """
+    Retrieve, update or delete a code product.
+    """
+    try:
+        product = Product.objects.get(pk=pk)
+    except Product.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = BaseProductSerializer(product)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = BaseProductSerializer(product, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
