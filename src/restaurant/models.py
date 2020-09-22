@@ -40,3 +40,7 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('restaurant:product_detail',
                        args=[self.id, self.slug])
+    def get_absolute_url_category(self):
+        return reverse('restaurant:product_list_by_category',
+                       args=[self.id, self.slug])
+

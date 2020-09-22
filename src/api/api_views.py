@@ -29,6 +29,8 @@ class CategoryAPIView(ListCreateAPIView,
     lookup_field = "id"
 
 
+
+
 @api_view(['GET', 'POST'])
 def product_list(request):
     """

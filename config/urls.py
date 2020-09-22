@@ -18,11 +18,11 @@ from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
 
-
 urlpatterns = [
     path('restaurant/', include('src.restaurant.urls', namespace='restaurant')),
     path('admin/', admin.site.urls),
-    path('api/',include('src.api.urls')),
+    path('api-auth/', include('rest_framework.urls')),  # добавляет авторизацию в api (для пермишенов)
+    path('api/', include('src.api.urls')),
 ]
 
 if settings.DEBUG:

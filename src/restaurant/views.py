@@ -25,3 +25,5 @@ def product_detail(request, product_id, slug):
     return render(request,
                   'restaurant/product/detail.html',
                   {'product': product})
+
+

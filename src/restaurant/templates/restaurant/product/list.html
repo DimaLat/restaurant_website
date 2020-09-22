@@ -15,7 +15,7 @@
                     <a href="/restaurant">All</a></li>
                 {% for c in categories %}
                     <li {% if category.slug == c.slug %} class="active"{% endif %}>
-                        <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                        <a href="{{ c.get_absolute_url_category }}">{{ c.name }}</a>
                     </li>
                 {% endfor %}
             </ul>
